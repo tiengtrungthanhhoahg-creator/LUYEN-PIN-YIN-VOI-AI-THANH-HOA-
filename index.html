@@ -1077,17 +1077,44 @@
     // ------------------------------------------------------------------------
     // 5. SPEECH SYNTHESIS ENGINE (LISTEN ALOUD)
     // ------------------------------------------------------------------------
+    // Map individual pinyin sounds to standard Chinese characters so Web Speech API TTS reads them as native Chinese phonetics instead of English letters
+    const SOUND_TO_HANZI_MAPPING = {
+      // Initials (Thanh mẫu)
+      "b": "玻", "p": "坡", "m": "摸", "f": "佛",
+      "d": "得", "t": "特", "n": "讷", "l": "勒",
+      "g": "哥", "k": "科", "h": "喝",
+      "j": "鸡", "q": "七", "x": "西",
+      "z": "资", "c": "雌", "s": "思",
+      "zh": "知", "ch": "吃", "sh": "诗", "r": "日",
+      
+      // Finals (Vận mẫu)
+      "a": "啊", "o": "喔", "e": "婀", "i": "衣", "u": "乌", "ü": "迂",
+      "ai": "哀", "ei": "诶", "ui": "威", "ao": "凹", "ou": "欧", "iu": "优",
+      "an": "安", "en": "恩", "in": "因", "un": "温", "ün": "晕",
+      "ang": "肮", "eng": "鞥", "ing": "英", "ong": "翁"
+    };
+
     function speakLetterPhonetic(letter) {
       if (!synth) return;
       synth.cancel(); // Stop any pending speech
 
-      const utterance = new SpeechSynthesisUtterance(letter);
-      utterance.lang = "zh-CN";
-      utterance.rate = 0.8; // slightly slower for clarity
+      const cleanLetter = letter.trim().toLowerCase();
+      const mappedText = SOUND_TO_HANZI_MAPPING[cleanLetter] || letter;
 
-      // Find best Chinese voice
+      const utterance = new SpeechSynthesisUtterance(mappedText);
+      utterance.lang = "zh-CN";
+      utterance.rate = 0.7; // slightly slower for clarity
+
+      // Find best Chinese voice (preferring zh-CN mainland standard Mandarin)
       const voices = synth.getVoices();
-      const zhVoice = voices.find(v => v.lang.startsWith("zh") || v.lang === "zh-CN");
+      let zhVoice = voices.find(v => v.lang === "zh-CN" || v.lang === "zh-CHS");
+      if (!zhVoice) {
+        zhVoice = voices.find(v => v.lang.startsWith("zh-"));
+      }
+      if (!zhVoice) {
+        zhVoice = voices.find(v => v.lang.startsWith("zh"));
+      }
+
       if (zhVoice) {
         utterance.voice = zhVoice;
       }
@@ -1112,8 +1139,16 @@
       utterance.lang = "zh-CN";
       utterance.rate = 0.75; // Slower pace for beginners to hear each tone
 
+      // Find best Chinese voice (preferring zh-CN mainland standard Mandarin)
       const voices = synth.getVoices();
-      const zhVoice = voices.find(v => v.lang.startsWith("zh") || v.lang === "zh-CN");
+      let zhVoice = voices.find(v => v.lang === "zh-CN" || v.lang === "zh-CHS");
+      if (!zhVoice) {
+        zhVoice = voices.find(v => v.lang.startsWith("zh-"));
+      }
+      if (!zhVoice) {
+        zhVoice = voices.find(v => v.lang.startsWith("zh"));
+      }
+
       if (zhVoice) {
         utterance.voice = zhVoice;
       }
