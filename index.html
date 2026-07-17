@@ -1,0 +1,1857 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vua Phiên Âm (Pinyin Master) - Luyện phát âm tiếng Trung từ con số 0</title>
+  
+  <!-- Tailwind CSS v3 CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind Configuration -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            teal: {
+              50: '#e6f2f2',
+              100: '#d1e6e6',
+              200: '#a3cccc',
+              300: '#75b3b3',
+              400: '#479999',
+              500: '#008080',
+              600: '#008080',
+              700: '#006666',
+              800: '#004d4d',
+              900: '#003333',
+              950: '#001a1a',
+            },
+            warm: {
+              50: '#f8fafc',
+              100: '#f1f5f9',
+              200: '#e2e8f0',
+              300: '#cbd5e1',
+              400: '#94a3b8',
+              primary: '#ffffff',
+            },
+            accent: {
+              rose: '#fb7185',
+              orange: '#f97316',
+              amber: '#f59e0b',
+            }
+          },
+          fontFamily: {
+            sans: ['"Inter"', 'sans-serif'],
+            heading: ['"Inter"', 'sans-serif'],
+            chinese: ['"ZCOOL KuaiLe"', 'cursive', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom utility styles */
+    body {
+      font-family: "Inter", sans-serif;
+      background-color: #f8fafc;
+    }
+    
+    .font-heading {
+      font-family: "Inter", sans-serif;
+    }
+
+    .font-chinese {
+      font-family: "ZCOOL KuaiLe", cursive, sans-serif;
+    }
+
+    /* Elegant custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Animated pulse indicator for microphone */
+    @keyframes micPulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(251, 113, 133, 0.7);
+      }
+      50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 10px rgba(251, 113, 133, 0);
+      }
+    }
+    .mic-listening {
+      animation: micPulse 1.5s infinite;
+    }
+
+    /* Soft scale on hover */
+    .btn-hover {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn-hover:hover {
+      transform: translateY(-2px);
+    }
+    .btn-hover:active {
+      transform: translateY(0);
+    }
+
+    /* Glowing border for active items */
+    .active-lesson-border {
+      position: relative;
+    }
+    .active-lesson-border::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background-color: #008080;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col selection:bg-teal-200 selection:text-teal-900">
+
+  <!-- Header Banner -->
+  <header class="bg-white text-slate-900 border-b border-slate-200 sticky top-0 z-30 px-4 py-3 md:px-8 flex items-center justify-between">
+    <div class="flex items-center space-x-3">
+      <!-- Mascot Logo -->
+      <div class="bg-teal-50 p-2 rounded-xl border border-teal-100 shadow-inner">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-teal-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+          <path d="M12 18V6"/>
+          <path d="M6 12h12"/>
+          <path d="M15 15a3 3 0 0 1-6 0"/>
+        </svg>
+      </div>
+      <div>
+        <h1 class="text-xl md:text-2xl font-black font-heading tracking-tight flex items-center gap-2 text-slate-900">
+          Vua Phiên Âm <span class="text-xs bg-teal-50 text-teal-800 border border-teal-100 font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">Pinyin Master</span>
+        </h1>
+        <p class="text-[10px] md:text-xs text-slate-500 font-medium">Lộ trình học phát âm bám sát giáo trình MSUTONG & HSK 1</p>
+      </div>
+    </div>
+
+    <!-- Quick Stats & Settings -->
+    <div class="flex items-center space-x-3">
+      <!-- Progress Bar Tracker -->
+      <div class="hidden sm:flex flex-col items-end mr-2">
+        <span class="text-xs font-bold text-slate-600" id="headerProgressPercent">Tiến độ: 0%</span>
+        <div class="w-32 bg-slate-100 rounded-full h-1.5 mt-1 border border-slate-200 overflow-hidden">
+          <div class="bg-teal-600 h-full transition-all duration-500" id="headerProgressBar" style="width: 0%"></div>
+        </div>
+      </div>
+      
+      <!-- API Key Setting Button -->
+      <button onclick="toggleSettingsModal()" class="p-2 hover:bg-slate-50 hover:text-slate-800 rounded-lg border border-transparent hover:border-slate-200 transition-all text-slate-500" title="Cấu hình API Key">
+        <i data-lucide="settings" class="w-5 h-5"></i>
+      </button>
+
+      <!-- Sidebar Toggle (Mobile only) -->
+      <button onclick="toggleMobileSidebar()" class="lg:hidden p-2 hover:bg-slate-50 rounded-lg transition-all text-slate-600">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Sidebar / Drawer Overlay -->
+  <div id="mobileSidebarOverlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity duration-300 opacity-0" onclick="toggleMobileSidebar()"></div>
+
+  <!-- App Main Layout Container -->
+  <div class="flex-1 flex flex-col lg:flex-row max-w-7xl w-full mx-auto p-4 md:p-6 gap-6">
+    
+    <!-- Sidebar - Lesson Navigator (Left Panel) -->
+    <aside id="sidebarContainer" class="fixed inset-y-0 left-0 w-80 bg-white border-r border-slate-200 z-50 flex flex-col transform -translate-x-full lg:relative lg:translate-x-0 lg:z-10 lg:w-72 lg:bg-transparent lg:border-0 lg:p-0 transition-transform duration-300 ease-in-out">
+      
+      <!-- Mobile Sidebar Header -->
+      <div class="lg:hidden p-4 border-b border-slate-100 flex items-center justify-between bg-teal-50">
+        <span class="font-heading font-extrabold text-teal-800 flex items-center gap-2">
+          <i data-lucide="book-open" class="w-5 h-5"></i> Danh sách bài học
+        </span>
+        <button onclick="toggleMobileSidebar()" class="p-1 hover:bg-slate-200 rounded-lg text-slate-500">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Syllabus / Navigation Board -->
+      <div class="flex-1 bg-white lg:rounded-2xl lg:shadow-sm border border-slate-200/80 p-4 overflow-y-auto flex flex-col">
+        <div class="mb-4">
+          <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5 mb-2">
+            <i data-lucide="route" class="w-3.5 h-3.5"></i> Lộ trình phát âm (10 bài)
+          </h2>
+          <p class="text-xs text-slate-500">Từng bước làm chủ Thanh mẫu, Vận mẫu và Thanh điệu cơ bản</p>
+        </div>
+
+        <!-- Progress Box -->
+        <div class="mb-4 p-3 bg-teal-50/50 rounded-xl border border-teal-100 flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <div class="p-1.5 bg-teal-100 text-teal-700 rounded-lg">
+              <i data-lucide="award" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <p class="text-xs font-bold text-teal-900">Hoàn thành</p>
+              <p class="text-[10px] text-teal-700" id="sidebarProgressText">0/10 bài học</p>
+            </div>
+          </div>
+          <button onclick="resetProgress()" class="text-[10px] text-slate-400 hover:text-red-500 underline font-medium" title="Khôi phục tiến độ ban đầu">
+            Reset
+          </button>
+        </div>
+
+        <!-- Lessons Scrollable List -->
+        <nav class="space-y-2 flex-1" id="lessonsList">
+          <!-- Populated by JavaScript -->
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Main Workspace (Center & Right Panel) -->
+    <main class="flex-1 flex flex-col gap-6">
+
+      <!-- Active Lesson Dashboard -->
+      <div class="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden transition-all">
+        <!-- Dashboard Header Banner -->
+        <div class="bg-teal-50/70 border-b border-teal-100/50 p-5 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="space-y-1">
+            <span class="text-xs font-bold text-teal-700 uppercase tracking-widest" id="activeLessonSubtitle">BÀI HỌC CƠ BẢN</span>
+            <h2 class="text-xl md:text-2xl font-black font-heading text-slate-900" id="activeLessonTitle">Bài 1: Âm môi và Âm răng môi (b, p, m, f)</h2>
+            <div class="flex flex-wrap gap-2 mt-2">
+              <span class="inline-flex items-center text-xs font-bold bg-teal-100 text-teal-800 px-2.5 py-1 rounded-full border border-teal-200">
+                <i data-lucide="zap" class="w-3.5 h-3.5 mr-1 text-teal-600"></i>
+                Trọng tâm: <span id="activeFocusSounds" class="ml-1 font-mono tracking-wider">b, p, m, f</span>
+              </span>
+              <span id="aiContentBadge" class="hidden inline-flex items-center text-xs font-bold bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full border border-amber-200">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 mr-1 text-amber-600"></i>
+                Luyện nâng cao với AI
+              </span>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="flex items-center gap-2">
+            <!-- AI Generate Button -->
+            <button id="btnAiGenerate" onclick="generateAdvancedLesson()" class="btn-hover bg-slate-900 hover:bg-teal-700 text-white font-bold text-sm px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 shadow-sm shadow-slate-900/10 active:scale-95">
+              <i data-lucide="sparkles" class="w-4 h-4 text-amber-300"></i>
+              <span>Luyện nâng cao với AI</span>
+            </button>
+            
+            <!-- Restore Original Lesson Button (Hidden initially) -->
+            <button id="btnRestoreOriginal" onclick="restoreOriginalLesson()" class="hidden btn-hover bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 border border-slate-200">
+              <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+              <span>Xem bài học gốc</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Workspace Inner Board -->
+        <div class="p-6 md:p-8 space-y-6">
+
+          <!-- Pronunciation Sound Selector Panel -->
+          <div>
+            <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+              <i data-lucide="mouth" class="w-4 h-4"></i> Hướng dẫn phát âm từng âm đơn
+            </h3>
+            <div id="soundButtonsContainer" class="flex flex-wrap gap-2.5 mb-4">
+              <!-- Dynamically populated sound selector pills -->
+            </div>
+            
+            <!-- Dynamic Pronunciation Detail Card -->
+            <div id="soundGuideBox" class="bg-gradient-to-br from-slate-50 to-slate-100/50 border border-slate-200/60 p-4 rounded-2xl flex items-start gap-3">
+              <div class="bg-teal-100/80 text-teal-800 p-2.5 rounded-xl mt-0.5">
+                <i data-lucide="info" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h4 id="soundGuideTitle" class="font-bold text-slate-900 text-sm mb-1">Mẹo phát âm âm mẫu</h4>
+                <p id="soundGuideText" class="text-sm text-slate-600 leading-relaxed">Chọn một âm cụ thể bên trên để xem mẹo khẩu hình miệng và hơi thở chi tiết từ cô giáo.</p>
+              </div>
+            </div>
+          </div>
+
+          <hr class="border-slate-100">
+
+          <!-- Main Practice Material Board -->
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-xs font-extrabold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                <i data-lucide="book-open-check" class="w-4 h-4"></i> Học qua bài thơ / đồng dao
+              </h3>
+              <span class="text-xs font-bold bg-teal-50 text-teal-700 px-3 py-1 rounded-full border border-teal-100" id="materialTypeBadge">
+                đồng dao
+              </span>
+            </div>
+
+            <!-- Material Title -->
+            <h4 class="text-lg font-black font-heading text-teal-900 text-center mb-6" id="practiceMaterialTitle">
+              Bà và Bố (Mẹ và Bé)
+            </h4>
+
+            <!-- Practice Lines Stack -->
+            <div class="space-y-4" id="practiceLinesContainer">
+              <!-- Dynamically populated with practice rows containing: Hanzi, Pinyin, translation, speak, listen buttons -->
+            </div>
+          </div>
+
+          <!-- Micro-interactions & Status Panel for Voice Challenge -->
+          <div id="challengeStatusBox" class="hidden border rounded-2xl p-4 transition-all duration-300">
+            <!-- Filled dynamically based on state -->
+          </div>
+
+          <!-- Mark Completed Button -->
+          <div class="pt-2 flex justify-center">
+            <button id="btnCompleteLesson" onclick="toggleLessonCompleted()" class="btn-hover px-6 py-3 rounded-xl font-bold text-sm shadow-sm flex items-center gap-2">
+              <i data-lucide="check-circle" class="w-5 h-5"></i>
+              <span>Đánh dấu đã hoàn thành bài này</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Teacher's Blackboard Section -->
+      <div class="bg-[#fffcf0] text-slate-800 rounded-2xl border-2 border-amber-200 shadow-sm overflow-hidden relative">
+        <!-- Border highlight -->
+        <div class="absolute inset-x-0 top-0 h-1 bg-amber-400"></div>
+        <div class="p-6 md:p-8 flex flex-col md:flex-row gap-6 items-center">
+          <!-- Mascot Graphic -->
+          <div class="w-20 h-20 bg-amber-100/50 rounded-2xl border border-amber-200/60 flex items-center justify-center shrink-0 shadow-inner relative overflow-hidden group">
+            <!-- Cute SVG Panda face or avatar -->
+            <svg viewBox="0 0 100 100" class="w-16 h-16 text-slate-800">
+              <circle cx="50" cy="50" r="40" fill="#334155" />
+              <circle cx="50" cy="50" r="35" fill="#f8fafc" />
+              <!-- Ears -->
+              <circle cx="28" cy="28" r="12" fill="#1e293b" />
+              <circle cx="72" cy="28" r="12" fill="#1e293b" />
+              <!-- Eyes patches -->
+              <ellipse cx="38" cy="48" rx="8" ry="10" fill="#1e293b" transform="rotate(-10 38 48)" />
+              <ellipse cx="62" cy="48" rx="8" ry="10" fill="#1e293b" transform="rotate(10 62 48)" />
+              <!-- Eyes pupil -->
+              <circle cx="38" cy="48" r="3" fill="#ffffff" />
+              <circle cx="62" cy="48" r="3" fill="#ffffff" />
+              <!-- Nose -->
+              <polygon points="46,60 54,60 50,65" fill="#1e293b" />
+              <!-- Smile -->
+              <path d="M45,69 Q50,73 55,69" stroke="#1e293b" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+            <div class="absolute -bottom-1 bg-amber-200 text-amber-900 text-[9px] font-extrabold px-1.5 py-0.2 rounded-full uppercase scale-90 tracking-wide">PANDA CO</div>
+          </div>
+          
+          <div class="space-y-2 text-center md:text-left flex-1">
+            <h4 class="font-heading font-black text-amber-800 text-lg flex items-center justify-center md:justify-start gap-2">
+              <i data-lucide="pen-tool" class="w-5 h-5"></i> Bảng phấn của cô giáo (Lời khuyên vàng)
+            </h4>
+            <p id="teacherNotesBox" class="text-slate-700 text-sm md:text-base leading-relaxed italic font-light">
+              Đặt một tờ giấy mỏng trước miệng. Khi phát âm âm "p", tờ giấy phải rung mạnh. Khi phát âm "b", tờ giấy hầu như không chuyển động.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tone Playground (Interactive Sound Chart Widget) -->
+      <div class="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-6 md:p-8 space-y-6">
+        <div class="space-y-1">
+          <span class="text-xs font-bold text-teal-700 uppercase tracking-widest flex items-center gap-1.5">
+            <i data-lucide="music-4" class="w-4 h-4"></i> Sân chơi tương tác đặc biệt
+          </span>
+          <h3 class="text-xl font-black font-heading text-slate-900">Sân chơi Thanh điệu (Tone Playground)</h3>
+          <p class="text-xs text-slate-500">Người học tiếng Trung thường gặp khó khăn nhất ở 4 thanh điệu. Nhấp vào mỗi thanh điệu để lắng nghe âm thanh và xem mô tả sóng âm trực quan!</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <!-- Tone 1 -->
+          <button onclick="triggerPlayTone(1)" class="btn-hover text-left p-4 rounded-2xl border border-slate-200 hover:border-teal-400 bg-slate-50/50 hover:bg-teal-50/20 group transition-all">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-black text-2xl font-heading text-teal-600">Thanh 1 (ā)</span>
+              <span class="p-1.5 bg-teal-100 text-teal-700 rounded-lg group-hover:bg-teal-200"><i data-lucide="play" class="w-4 h-4"></i></span>
+            </div>
+            <p class="text-xs font-bold text-slate-800 mb-1">Thanh ngang (Bình)</p>
+            <p class="text-[11px] text-slate-500">Cao và bằng phẳng. Giữ nguyên độ cao từ đầu đến cuối âm.</p>
+          </button>
+
+          <!-- Tone 2 -->
+          <button onclick="triggerPlayTone(2)" class="btn-hover text-left p-4 rounded-2xl border border-slate-200 hover:border-teal-400 bg-slate-50/50 hover:bg-teal-50/20 group transition-all">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-black text-2xl font-heading text-teal-600">Thanh 2 (á)</span>
+              <span class="p-1.5 bg-teal-100 text-teal-700 rounded-lg group-hover:bg-teal-200"><i data-lucide="play" class="w-4 h-4"></i></span>
+            </div>
+            <p class="text-xs font-bold text-slate-800 mb-1">Thanh sắc (Thượng)</p>
+            <p class="text-[11px] text-slate-500">Vừa phải rồi vút cao lên. Nghe giống câu hỏi ngạc nhiên trong tiếng Việt.</p>
+          </button>
+
+          <!-- Tone 3 -->
+          <button onclick="triggerPlayTone(3)" class="btn-hover text-left p-4 rounded-2xl border border-slate-200 hover:border-teal-400 bg-slate-50/50 hover:bg-teal-50/20 group transition-all">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-black text-2xl font-heading text-teal-600">Thanh 3 (ǎ)</span>
+              <span class="p-1.5 bg-teal-100 text-teal-700 rounded-lg group-hover:bg-teal-200"><i data-lucide="play" class="w-4 h-4"></i></span>
+            </div>
+            <p class="text-xs font-bold text-slate-800 mb-1">Thanh hỏi (Khứ)</p>
+            <p class="text-[11px] text-slate-500">Xuống thấp kịch sàn rồi vòng đi lên lại. Có độ uốn lượn rõ rệt.</p>
+          </button>
+
+          <!-- Tone 4 -->
+          <button onclick="triggerPlayTone(4)" class="btn-hover text-left p-4 rounded-2xl border border-slate-200 hover:border-teal-400 bg-slate-50/50 hover:bg-teal-50/20 group transition-all">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-black text-2xl font-heading text-teal-600">Thanh 4 (à)</span>
+              <span class="p-1.5 bg-teal-100 text-teal-700 rounded-lg group-hover:bg-teal-200"><i data-lucide="play" class="w-4 h-4"></i></span>
+            </div>
+            <p class="text-xs font-bold text-slate-800 mb-1">Thanh huyền (Nhập)</p>
+            <p class="text-[11px] text-slate-500">Dứt khoát, đi xuống cực nhanh. Đọc như đang giận dữ, ngắn gọn.</p>
+          </button>
+        </div>
+
+        <!-- Tone Animation Canvas -->
+        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/60 relative overflow-hidden flex flex-col items-center justify-center">
+          <span class="absolute top-3 left-4 text-[10px] text-slate-400 uppercase tracking-widest font-bold">Biểu đồ cao độ thanh điệu trực quan</span>
+          
+          <div class="w-full max-w-lg h-44 mt-4 relative">
+            <!-- Canvas -->
+            <canvas id="toneCanvas" class="w-full h-full block bg-white rounded-xl border border-slate-100 shadow-inner"></canvas>
+            <!-- Highlight info -->
+            <div class="absolute top-2 right-3 bg-teal-700 text-white text-[10px] font-bold px-2 py-0.5 rounded-full" id="toneActiveIndicator">
+              Nhấp một thanh điệu để xem sóng
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-100 border-t border-slate-200 py-6 px-4 text-center mt-auto text-slate-500 text-xs">
+    <div class="max-w-7xl mx-auto space-y-2">
+      <p class="font-bold text-slate-700">Vua Phiên Âm (Pinyin Master) &copy; 2026</p>
+      <p>Ứng dụng học tập thông minh sử dụng Web Speech API và mô hình AI tiên tiến nhất <span class="font-bold text-teal-700">gemini-2.0-flash</span>.</p>
+    </div>
+  </footer>
+
+  <!-- API Key Setup / Settings Modal -->
+  <div id="settingsModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-md w-full overflow-hidden transform scale-95 transition-all">
+      <div class="bg-teal-700 text-white px-6 py-4 flex items-center justify-between">
+        <h3 class="font-heading font-black text-lg flex items-center gap-2">
+          <i data-lucide="settings" class="w-5 h-5 text-amber-300"></i> Cấu hình kết nối AI
+        </h3>
+        <button onclick="toggleSettingsModal()" class="p-1 hover:bg-white/15 rounded-lg text-teal-100 hover:text-white transition-all">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-4">
+        <p class="text-xs text-slate-600 leading-relaxed">
+          Ứng dụng được cài đặt mặc định để gọi trực tiếp tới mô hình Gemini của Google bằng API Key của bạn.
+          Dữ liệu được xử lý hoàn toàn trên trình duyệt của bạn, đảm bảo bảo mật tối đa.
+        </p>
+
+        <div class="space-y-1.5">
+          <label for="inputApiKey" class="text-xs font-extrabold text-slate-700 uppercase tracking-wide block">Gemini API Key của bạn</label>
+          <div class="relative">
+            <input type="password" id="inputApiKey" placeholder="AIzaSy..." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-200/50 outline-none text-sm transition-all pr-10 font-mono">
+            <button onclick="toggleApiKeyVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+              <i id="eyeIcon" data-lucide="eye" class="w-4 h-4"></i>
+            </button>
+          </div>
+          <p class="text-[11px] text-slate-400 flex items-center gap-1 mt-1">
+            <i data-lucide="info" class="w-3.5 h-3.5"></i>
+            Nếu bỏ trống, ứng dụng sẽ tự động rơi vào cơ chế Bài học Offline (10 bài).
+          </p>
+        </div>
+
+        <div class="bg-amber-50 border border-amber-200 p-3.5 rounded-xl flex items-start gap-2.5">
+          <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5"></i>
+          <p class="text-[11px] text-amber-800 leading-relaxed">
+            <strong>Bảo mật khóa API:</strong> Khóa API của bạn được lưu cục bộ trong trình duyệt (localStorage). Chúng tôi tuyệt đối không gửi khóa này về bất kỳ máy chủ trung gian nào.
+          </p>
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2.5">
+          <button onclick="toggleSettingsModal()" class="px-4 py-2 text-xs font-bold text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-all">Hủy</button>
+          <button onclick="saveApiKeySettings()" class="px-5 py-2 text-xs font-bold bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-sm hover:shadow active:scale-95 transition-all">Lưu cài đặt</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State Screen Modal for AI Generation -->
+  <div id="aiLoadingOverlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-white rounded-3xl p-8 max-w-sm w-full text-center space-y-6 shadow-2xl border border-slate-100 flex flex-col items-center">
+      
+      <!-- Loading graphic -->
+      <div class="relative w-24 h-24 flex items-center justify-center">
+        <!-- Spinner rings -->
+        <div class="absolute inset-0 rounded-full border-4 border-teal-100 border-t-teal-600 animate-spin"></div>
+        <!-- Center cute panda or sparkles -->
+        <div class="bg-teal-50 p-4 rounded-full border border-teal-100 text-teal-600 animate-bounce">
+          <i data-lucide="sparkles" class="w-8 h-8 text-amber-500"></i>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <h3 class="font-heading font-black text-lg text-slate-900">Cô giáo AI đang soạn bài...</h3>
+        <p class="text-xs text-slate-500 leading-relaxed" id="loadingQuote">"Vui lòng đợi trong giây lát. Đang lấy cảm hứng để tạo một bài thơ/bài hát thiếu nhi hoàn toàn mới!"</p>
+      </div>
+
+      <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+        <div class="bg-gradient-to-r from-teal-500 to-emerald-500 h-full animate-pulse" style="width: 100%"></div>
+      </div>
+      
+      <p class="text-[10px] text-slate-400">Đang truy vấn mô hình AI gemini-2.0-flash...</p>
+    </div>
+  </div>
+
+  <!-- Global Application Code (Vanilla JS) -->
+  <script>
+    // ------------------------------------------------------------------------
+    // 1. EMBEDDED FALLBACK HARDCODED DATA (10 LESSONS)
+    // ------------------------------------------------------------------------
+    const LESSONS_DATA = [
+      {
+        "lessonTitle": "Bài 1: Âm môi và Âm răng môi (b, p, m, f)",
+        "focusSounds": "b, p, m, f",
+        "pronunciationGuide": "b: Ngậm hai môi lại rồi bật nhẹ hơi ra (không có luồng hơi mạnh). p: Ngậm hai môi, bật hơi thật mạnh ra ngoài. m: Hai môi khép nhẹ, luồng hơi đi ra qua đường mũi. f: Răng trên tiếp xúc nhẹ với môi dưới, hơi lách qua khe răng môi.",
+        "practiceMaterial": {
+          "type": "đồng dao",
+          "title": "Bà và Bố (Mẹ và Bé)",
+          "lines": [
+            {"hanzi": "爸爸爱妈妈，", "pinyin": "Bàba ài māma,", "translation": "Bố yêu mẹ,"},
+            {"hanzi": "妈妈爱我。", "pinyin": "māma ài wǒ.", "translation": "mẹ yêu con."}
+          ]
+        },
+        "teacherNotes": "Hãy đặt một tờ giấy mỏng trước miệng. Khi phát âm âm 'p', tờ giấy phải rung mạnh. Khi phát âm 'b', tờ giấy hầu như không chuyển động."
+      },
+      {
+        "lessonTitle": "Bài 2: Vận mẫu đơn cơ bản (a, o, e, i, u, ü)",
+        "focusSounds": "a, o, e, i, u, ü",
+        "pronunciationGuide": "a: Miệng mở rộng, lưỡi hạ thấp. o: Môi tròn, lưỡi hơi lùi về phía sau. e: Miệng hơi dẹt, lưỡi hơi nâng lên. i: Miệng dẹt như đang cười. u: Môi tròn và chu ra phía trước. ü: Khẩu hình môi tròn giống 'u' nhưng phát ra âm gần giống 'uy'.",
+        "practiceMaterial": {
+          "type": "bài hát thiếu nhi",
+          "title": "Tìm bạn thân (找朋友)",
+          "lines": [
+            {"hanzi": "找呀找呀找朋友，", "pinyin": "Zhǎo ya zhǎo ya zhǎo péngyou,", "translation": "Tìm nha tìm nha tìm bạn thân,"},
+            {"hanzi": "找到一个好朋友。", "pinyin": "zhǎodào yí gè hǎo péngyou.", "translation": "tìm được một người bạn tốt."}
+          ]
+        },
+        "teacherNotes": "Đặc biệt chú ý âm 'ü', giữ nguyên khẩu hình môi tròn suốt quá trình phát âm, không được dẹt môi."
+      },
+      {
+        "lessonTitle": "Bài 3: Âm đầu lưỡi giữa (d, t, n, l)",
+        "focusSounds": "d, t, n, l",
+        "pronunciationGuide": "d: Đầu lưỡi chạm vào lợi răng trên rồi hạ xuống nhanh, không bật hơi. t: Vị trí giống 'd' nhưng bật hơi cực mạnh. n: Đầu lưỡi chạm vào lợi răng trên, hơi thoát ra đường mũi. l: Đầu lưỡi chạm vào lợi răng trên, hơi thoát ra hai bên lưỡi.",
+        "practiceMaterial": {
+          "type": "thơ 4 chữ",
+          "title": "Em bé ngoan",
+          "lines": [
+            {"hanzi": "大地大，", "pinyin": "Dà dì dà,", "translation": "Trái đất rộng lớn,"},
+            {"hanzi": "天天天。", "pinyin": "tiān tiān tiān.", "translation": "bầu trời bao la."}
+          ]
+        },
+        "teacherNotes": "Luyện tập cặp âm 'd' và 't'. Đặt tay trước miệng để cảm nhận luồng khí nóng khi phát âm âm 't'."
+      },
+      {
+        "lessonTitle": "Bài 4: Âm gốc lưỡi (g, k, h)",
+        "focusSounds": "g, k, h",
+        "pronunciationGuide": "g: Gốc lưỡi áp vào vòm miệng mềm, mở nhanh không bật hơi. k: Vị trí giống 'g' nhưng đẩy hơi mạnh từ cổ họng ra. h: Gốc lưỡi tiếp cận gần vòm miệng mềm, hơi sát ra ngoài nhẹ nhàng.",
+        "practiceMaterial": {
+          "type": "đồng dao",
+          "title": "Con Khỉ Con (小猴子)",
+          "lines": [
+            {"hanzi": "哥哥看，", "pinyin": "Gēge kàn,", "translation": "Anh trai xem,"},
+            {"hanzi": "大花猫。", "pinyin": "dà huā māo.", "translation": "con mèo mướp lớn."}
+          ]
+        },
+        "teacherNotes": "Âm 'h' trong tiếng Trung phát âm nhẹ và có chút hơi ma sát từ cuống họng, không quá nặng như chữ 'h' trong tiếng Việt."
+      },
+      {
+        "lessonTitle": "Bài 5: Âm mặt lưỡi (j, q, x)",
+        "focusSounds": "j, q, x",
+        "pronunciationGuide": "j: Mặt lưỡi áp vào ngạc cứng, mở ra nhẹ không bật hơi. q: Vị trí giống 'j' nhưng bật hơi cực mạnh từ mặt lưỡi. x: Mặt lưỡi tiếp cận gần ngạc cứng, hơi lách ra ngoài dẹt môi.",
+        "practiceMaterial": {
+          "type": "bài hát thiếu nhi",
+          "title": "Ngôi sao nhỏ (小星星)",
+          "lines": [
+            {"hanzi": "一闪一闪亮晶晶，", "pinyin": "Yì shǎn yì shǎn liàng jīngjīng,", "translation": "Lấp la lấp lánh sáng bừng bừng,"},
+            {"hanzi": "满天 đều là những ngôi sao nhỏ.", "pinyin": "mǎn tiān dōu shì xiǎo xīngxing.", "translation": "đầy trời đều là những ngôi sao nhỏ."}
+          ]
+        },
+        "teacherNotes": "Hãy cười thật tươi khi phát âm ba âm này để hai khóe môi kéo sang hai bên, giúp âm thanh dẹt và chuẩn xác hơn."
+      },
+      {
+        "lessonTitle": "Bài 6: Âm đầu lưỡi trước (z, c, s)",
+        "focusSounds": "z, c, s",
+        "pronunciationGuide": "z: Đầu lưỡi đặt thẳng áp vào mặt sau răng cửa trên, mở ra không bật hơi. c: Vị trí giống 'z' nhưng bật hơi mạnh từ khe răng. s: Đầu lưỡi tiếp cận sát mặt sau răng cửa dưới, hơi lách ra ngoài tạo tiếng xì.",
+        "practiceMaterial": {
+          "type": "đồng dao",
+          "title": "Tập đếm số (数 số)",
+          "lines": [
+            {"hanzi": "一二三，", "pinyin": "Yī èr sān,", "translation": "Một hai ba,"},
+            {"hanzi": "爬上山。", "pinyin": "pá shàng shān.", "translation": "leo lên núi."}
+          ]
+        },
+        "teacherNotes": "Đây là nhóm âm thẳng lưỡi dẹt môi. Hãy giữ đầu lưỡi thật phẳng và áp sát vào mặt trong của răng."
+      },
+      {
+        "lessonTitle": "Bài 7: Âm uốn lưỡi (zh, ch, sh, r)",
+        "focusSounds": "zh, ch, sh, r",
+        "pronunciationGuide": "zh: Đầu lưỡi uốn ngược lên chạm vào ngạc cứng, mở ra không bật hơi. ch: Vị trí uốn lưỡi giống 'zh' nhưng đẩy hơi bật ra cực mạnh. sh: Đầu lưỡi uốn ngược gần sát ngạc cứng, hơi lách ra ngoài tạo tiếng xì uốn lưỡi. r: Vị trí giống 'sh' nhưng dây thanh quản rung mạnh phát ra âm có độ rung.",
+        "practiceMaterial": {
+          "type": "thơ 4 chữ",
+          "title": "Đọc sách (读书)",
+          "lines": [
+            {"hanzi": "老师说，", "pinyin": "Lǎoshī shuō,", "translation": "Thầy cô nói,"},
+            {"hanzi": "读书好。", "pinyin": "dúshū hǎo.", "translation": "đọc sách tốt."}
+          ]
+        },
+        "teacherNotes": "Không được để đầu lưỡi chạm vào răng khi phát âm nhóm âm này. Hãy uốn cong lưỡi lên phía vòm họng."
+      },
+      {
+        "lessonTitle": "Bài 8: Vận mẫu kép (ai, ei, ui, ao, ou, iu)",
+        "focusSounds": "ai, ei, ui, ao, ou, iu",
+        "pronunciationGuide": "ai: Phát âm 'a' rồi chuyển nhanh sang 'i'. ei: Phát âm 'e' rồi chuyển nhanh sang 'i'. ui: Phát âm 'u' rồi chuyển nhanh sang 'i'. ao: Phát âm 'a' rồi chuyển nhanh sang 'o'. ou: Phát âm 'o' rồi chuyển nhanh sang 'u'. iu: Phát âm 'i' rồi chuyển nhanh sang 'u'.",
+        "practiceMaterial": {
+          "type": "bài hát thiếu nhi",
+          "title": "Đàn vịt con",
+          "lines": [
+            {"hanzi": "小鸭子，", "pinyin": "Xiǎo yāzi,", "translation": "Con vịt nhỏ,"},
+            {"hanzi": "呱呱叫。", "pinyin": "guāguā jiào.", "translation": "kêu quác quác."}
+          ]
+        },
+        "teacherNotes": "Nguyên tắc phát âm âm kép là chuyển đổi khẩu hình thật mượt mà từ âm chính sang âm phụ."
+      },
+      {
+        "lessonTitle": "Bài 9: Vận mẫu mũi trước (an, en, in, un, ün)",
+        "focusSounds": "an, en, in, un, ün",
+        "pronunciationGuide": "Mũi trước có đuôi kết thúc là âm 'n'. Khi kết thúc âm, đầu lưỡi phải chạm vào lợi răng trên để chặn hơi lại, cho hơi đi lên mũi.",
+        "practiceMaterial": {
+          "type": "thơ 4 chữ",
+          "title": "Mùa xuân đến (春天来)",
+          "lines": [
+            {"hanzi": "春天来，", "pinyin": "Chūntiān lái,", "translation": "Mùa xuân đến,"},
+            {"hanzi": "花儿开。", "pinyin": "huā'er kāi.", "translation": "hoa nở rộ."}
+          ]
+        },
+        "teacherNotes": "Đảm bảo cuối âm đầu lưỡi của bạn đã đặt đúng vị trí chân răng trên giống như đang phát âm chữ 'n' trong tiếng Việt."
+      },
+      {
+        "lessonTitle": "Bài 10: Vận mẫu mũi sau (ang, eng, ing, ong)",
+        "focusSounds": "ang, eng, ing, ong",
+        "pronunciationGuide": "Mũi sau có đuôi kết thúc là âm 'ng'. Khi kết thúc âm, gốc lưỡi phải nâng lên chạm vào vòm họng mềm, miệng hơi mở rộng để hơi thoát hoàn toàn ra mũi.",
+        "practiceMaterial": {
+          "type": "đồng dao",
+          "title": "Cây thông nhỏ (小松树)",
+          "lines": [
+            {"hanzi": "松树绿，", "pinyin": "Sōngshù lǜ,", "translation": "Cây thông xanh,"},
+            {"hanzi": "风吹响。", "pinyin": "fēng chuī xiǎng.", "translation": "gió thổi vang."}
+          ]
+        },
+        "teacherNotes": "Khác với âm mũi trước, âm mũi sau yêu cầu bạn không được chạm đầu lưỡi vào răng khi kết thúc âm."
+      }
+    ];
+
+    // ------------------------------------------------------------------------
+    // 2. EMBEDDED KEY CONFIG & STATE MANAGERS
+    // ------------------------------------------------------------------------
+    const GEMINI_API_KEY_DEFAULT = "PASTE_YOUR_KEY_HERE";
+    
+    let activeLessonIndex = 0;
+    let customAiLessons = {}; // Stores generated AI lessons by lessonIndex
+    let showingAiContent = false;
+    let activeSoundSelected = "";
+    
+    // Audio Context for Tone Playground Synth & feedback sound effects
+    let audioCtx = null;
+
+    // Speech synthesis & recognition
+    const synth = window.speechSynthesis;
+    let recognition = null;
+    let currentRecordingLineIndex = null;
+
+    // Loading quotes to keep user entertained
+    const LOADING_QUOTES = [
+      "\"Dục tốc bất đạt\" - Cô giáo AI đang tỉ mỉ lựa chọn câu chữ hay nhất cho bạn...",
+      "\"Học nhi thời tập chi\" - Đang kết nối mạng lưới thần kinh học sâu để soạn giáo án phát âm...",
+      "Đang tối ưu hóa vần điệu cho bạn dễ đọc và dễ nhớ nhất...",
+      "Đang liên kết với từ điển phát âm của chuẩn giáo trình MSUTONG...",
+      "Cô giáo Hùng Hùng đang vẽ sơ đồ khẩu hình đẹp nhất..."
+    ];
+
+    // Speech recognition initialization
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      recognition = new SpeechRecognition();
+      recognition.lang = "zh-CN";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+    }
+
+    // ------------------------------------------------------------------------
+    // 3. STORAGE & LIFECYCLE MANAGEMENT
+    // ------------------------------------------------------------------------
+    // Local storage keys
+    const KEY_PROGRESS = "vua_phien_am_progress";
+    const KEY_API_KEY = "vua_phien_am_gemini_key";
+
+    // Load initial configuration
+    window.addEventListener("DOMContentLoaded", () => {
+      initProgressData();
+      loadSavedApiKey();
+      renderLessonsSyllabus();
+      loadLesson(0);
+      initToneCanvas();
+      
+      // Load Lucide icons initially
+      lucide.createIcons();
+    });
+
+    // Reset progress in localStorage
+    function resetProgress() {
+      if (confirm("Bạn có chắc chắn muốn khôi phục tiến độ học tập ban đầu? Tất cả các bài học đã hoàn thành sẽ được đặt lại.")) {
+        localStorage.setItem(KEY_PROGRESS, JSON.stringify([]));
+        initProgressData();
+        renderLessonsSyllabus();
+        updateLessonUIState();
+        playTryAgainSound();
+      }
+    }
+
+    // Initialize progress values if not present
+    function initProgressData() {
+      let progress = localStorage.getItem(KEY_PROGRESS);
+      if (!progress) {
+        localStorage.setItem(KEY_PROGRESS, JSON.stringify([]));
+      }
+      updateGlobalProgressUI();
+    }
+
+    function getCompletedLessons() {
+      return JSON.parse(localStorage.getItem(KEY_PROGRESS)) || [];
+    }
+
+    function markLessonCompleted(index, completed) {
+      let completedList = getCompletedLessons();
+      if (completed) {
+        if (!completedList.includes(index)) {
+          completedList.push(index);
+        }
+      } else {
+        completedList = completedList.filter(i => i !== index);
+      }
+      localStorage.setItem(KEY_PROGRESS, JSON.stringify(completedList));
+      updateGlobalProgressUI();
+      renderLessonsSyllabus();
+    }
+
+    function updateGlobalProgressUI() {
+      const completed = getCompletedLessons();
+      const percentage = Math.round((completed.length / 10) * 100);
+      
+      const headerBar = document.getElementById("headerProgressBar");
+      const headerText = document.getElementById("headerProgressPercent");
+      const sidebarText = document.getElementById("sidebarProgressText");
+      
+      if (headerBar) headerBar.style.width = percentage + "%";
+      if (headerText) headerText.innerText = "Tiến độ: " + percentage + "%";
+      if (sidebarText) sidebarText.innerText = completed.length + "/10 bài học";
+    }
+
+    // Load and Save API Key settings
+    function loadSavedApiKey() {
+      const savedKey = localStorage.getItem(KEY_API_KEY);
+      const input = document.getElementById("inputApiKey");
+      if (savedKey) {
+        input.value = savedKey;
+      }
+    }
+
+    function saveApiKeySettings() {
+      const value = document.getElementById("inputApiKey").value.trim();
+      if (value) {
+        localStorage.setItem(KEY_API_KEY, value);
+      } else {
+        localStorage.removeItem(KEY_API_KEY);
+      }
+      toggleSettingsModal();
+      playSuccessSound();
+    }
+
+    function getActiveApiKey() {
+      const savedKey = localStorage.getItem(KEY_API_KEY);
+      return savedKey ? savedKey : GEMINI_API_KEY_DEFAULT;
+    }
+
+    function toggleApiKeyVisibility() {
+      const input = document.getElementById("inputApiKey");
+      const eyeIcon = document.getElementById("eyeIcon");
+      if (input.type === "password") {
+        input.type = "text";
+        eyeIcon.setAttribute("data-lucide", "eye-off");
+      } else {
+        input.type = "password";
+        eyeIcon.setAttribute("data-lucide", "eye");
+      }
+      lucide.createIcons();
+    }
+
+    // ------------------------------------------------------------------------
+    // 4. UI RENDER ENGINE (SIDEBAR AND MAIN BOARD)
+    // ------------------------------------------------------------------------
+    function renderLessonsSyllabus() {
+      const lessonsList = document.getElementById("lessonsList");
+      lessonsList.innerHTML = "";
+      
+      const completedList = getCompletedLessons();
+
+      LESSONS_DATA.forEach((lesson, i) => {
+        const isSelected = (i === activeLessonIndex);
+        const isCompleted = completedList.includes(i);
+        
+        const button = document.createElement("button");
+        button.className = `w-full text-left p-3 rounded-xl flex items-center justify-between border transition-all duration-200 group relative ${
+          isSelected 
+            ? "bg-teal-50 border-teal-200 text-teal-900 font-bold active-lesson-border" 
+            : "bg-slate-50/40 border-slate-200/50 hover:bg-slate-50 hover:border-slate-300 text-slate-700"
+        }`;
+        button.onclick = () => {
+          loadLesson(i);
+          // If mobile, close the mobile sidebar
+          const drawer = document.getElementById("sidebarContainer");
+          const overlay = document.getElementById("mobileSidebarOverlay");
+          if (!drawer.classList.contains("-translate-x-full")) {
+            toggleMobileSidebar();
+          }
+        };
+
+        const lessonTitleNum = lesson.lessonTitle.split(":")[0];
+        const lessonTitleText = lesson.lessonTitle.substring(lesson.lessonTitle.indexOf(":") + 1).trim();
+
+        button.innerHTML = `
+          <div class="flex items-start space-x-2.5">
+            <div class="p-1.5 rounded-lg shrink-0 transition-colors ${
+              isSelected ? "bg-teal-600 text-white" : "bg-slate-200/60 text-slate-500 group-hover:bg-slate-200"
+            }">
+              <span class="text-xs font-black font-heading">${i + 1}</span>
+            </div>
+            <div class="space-y-0.5">
+              <p class="text-xs font-heading font-black text-slate-900 group-hover:text-teal-900">${lessonTitleNum}</p>
+              <p class="text-[11px] text-slate-500 truncate max-w-[150px] font-normal">${lessonTitleText}</p>
+              <p class="text-[10px] font-mono tracking-wider text-teal-700">${lesson.focusSounds}</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-1">
+            ${isCompleted ? `
+              <span class="text-emerald-600 bg-emerald-50 p-1 rounded-full border border-emerald-100">
+                <i data-lucide="check" class="w-3.5 h-3.5"></i>
+              </span>
+            ` : `
+              <span class="text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity p-1">
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </span>
+            `}
+          </div>
+        `;
+
+        lessonsList.appendChild(button);
+      });
+
+      lucide.createIcons();
+    }
+
+    function loadLesson(index) {
+      activeLessonIndex = index;
+      showingAiContent = false;
+      activeSoundSelected = "";
+      
+      // Clear speak challenge box
+      hideChallengeStatus();
+
+      // Render actual lesson data
+      renderActiveLessonData();
+      
+      // Update sidebar visual selection
+      renderLessonsSyllabus();
+    }
+
+    function renderActiveLessonData() {
+      const lesson = LESSONS_DATA[activeLessonIndex];
+      const aiLesson = customAiLessons[activeLessonIndex];
+      const currentData = (showingAiContent && aiLesson) ? aiLesson : lesson;
+
+      // Update basic texts
+      document.getElementById("activeLessonSubtitle").innerText = showingAiContent ? "BÀI HỌC AI NÂNG CAO" : "BÀI HỌC CƠ BẢN";
+      document.getElementById("activeLessonTitle").innerText = currentData.lessonTitle;
+      document.getElementById("activeFocusSounds").innerText = currentData.focusSounds;
+      
+      // AI Content Badge
+      const aiBadge = document.getElementById("aiContentBadge");
+      if (showingAiContent) {
+        aiBadge.classList.remove("hidden");
+      } else {
+        aiBadge.classList.add("hidden");
+      }
+
+      // Action buttons
+      const btnAi = document.getElementById("btnAiGenerate");
+      const btnRestore = document.getElementById("btnRestoreOriginal");
+      if (showingAiContent) {
+        btnAi.classList.add("hidden");
+        btnRestore.classList.remove("hidden");
+      } else {
+        btnAi.classList.remove("hidden");
+        btnRestore.classList.add("hidden");
+      }
+
+      // Render Individual Sound buttons
+      const focusSoundsList = lesson.focusSounds.split(",").map(s => s.trim());
+      const soundButtonsContainer = document.getElementById("soundButtonsContainer");
+      soundButtonsContainer.innerHTML = "";
+
+      focusSoundsList.forEach(sound => {
+        const isSelected = (activeSoundSelected === sound);
+        const button = document.createElement("button");
+        button.className = `btn-hover text-sm font-black font-heading px-4 py-2 rounded-xl border transition-all ${
+          isSelected 
+            ? "bg-teal-600 text-white border-teal-700 shadow-sm" 
+            : "bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200"
+        }`;
+        button.innerText = sound;
+        button.onclick = () => selectFocusSound(sound);
+        soundButtonsContainer.appendChild(button);
+      });
+
+      // Auto-select first sound if none selected
+      if (!activeSoundSelected && focusSoundsList.length > 0) {
+        selectFocusSound(focusSoundsList[0]);
+      } else if (activeSoundSelected) {
+        // Refresh guide text in case sounds changed
+        selectFocusSound(activeSoundSelected);
+      }
+
+      // Material details
+      document.getElementById("materialTypeBadge").innerText = currentData.practiceMaterial.type;
+      document.getElementById("practiceMaterialTitle").innerText = currentData.practiceMaterial.title;
+
+      // Render lines
+      const practiceLinesContainer = document.getElementById("practiceLinesContainer");
+      practiceLinesContainer.innerHTML = "";
+
+      currentData.practiceMaterial.lines.forEach((line, i) => {
+        const row = document.createElement("div");
+        row.className = "p-5 rounded-2xl bg-white border border-slate-200 hover:border-teal-200 hover:shadow-sm transition-all duration-200 flex flex-col md:flex-row items-center justify-between gap-4";
+        
+        row.innerHTML = `
+          <div class="space-y-2 text-center md:text-left flex-1">
+            <!-- Hanzi large rounded font -->
+            <h5 class="text-3xl md:text-4xl font-chinese font-bold text-teal-950 tracking-wide select-none cursor-help relative inline-block group" title="Bấm nghe đọc để kiểm tra phát âm">
+              ${line.hanzi}
+            </h5>
+            <!-- Pinyin and pronunciation guides -->
+            <p class="text-base font-bold text-amber-600 font-sans tracking-wide">
+              ${line.pinyin}
+            </p>
+            <!-- Meaning in Vietnamese -->
+            <p class="text-xs text-slate-500 font-normal italic">
+              Nghĩa: ${line.translation}
+            </p>
+          </div>
+          
+          <!-- Interactive voice & sound triggers -->
+          <div class="flex flex-row items-center gap-2 w-full md:w-auto shrink-0 justify-center">
+            <!-- Listen action -->
+            <button onclick="readAloud('${line.hanzi.replace(/'/g, "\\'")}', ${i})" id="btnListen-${i}" class="btn-hover bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-100 hover:border-teal-200 px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all">
+              <i data-lucide="volume-2" class="w-4 h-4"></i>
+              <span>Nghe đọc</span>
+            </button>
+            
+            <!-- Speech challenge action -->
+            <button onclick="startVoiceChallenge('${line.hanzi.replace(/'/g, "\\'")}', ${i})" id="btnChallenge-${i}" class="btn-hover bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-100 hover:border-rose-200 px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all">
+              <i data-lucide="mic" class="w-4 h-4"></i>
+              <span>Luyện nói</span>
+            </button>
+          </div>
+        `;
+        practiceLinesContainer.appendChild(row);
+      });
+
+      // Update blackboard Notes
+      document.getElementById("teacherNotesBox").innerText = currentData.teacherNotes;
+
+      // Update completion button state
+      updateLessonUIState();
+
+      lucide.createIcons();
+    }
+
+    function selectFocusSound(sound) {
+      activeSoundSelected = sound;
+      
+      // Re-render button classes to show selected state
+      const soundButtonsContainer = document.getElementById("soundButtonsContainer");
+      Array.from(soundButtonsContainer.children).forEach(btn => {
+        if (btn.innerText === sound) {
+          btn.className = "btn-hover text-sm font-black font-heading px-4 py-2 rounded-xl bg-teal-600 text-white border-teal-700 shadow-sm";
+        } else {
+          btn.className = "btn-hover text-sm font-black font-heading px-4 py-2 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200";
+        }
+      });
+
+      // Determine sound guide description
+      const lesson = LESSONS_DATA[activeLessonIndex];
+      const guides = lesson.pronunciationGuide.split(". ");
+      let matchedGuide = "";
+
+      for (let i = 0; i < guides.length; i++) {
+        if (guides[i].toLowerCase().startsWith(sound.toLowerCase() + ":")) {
+          matchedGuide = guides[i];
+          break;
+        }
+      }
+
+      if (!matchedGuide) {
+        // Fallback search inside the entire guide text
+        const regex = new RegExp(`${sound}\\s*:\\s*([^\\n.]+)`, "i");
+        const match = lesson.pronunciationGuide.match(regex);
+        if (match && match[0]) {
+          matchedGuide = match[0];
+        } else {
+          matchedGuide = lesson.pronunciationGuide;
+        }
+      }
+
+      document.getElementById("soundGuideTitle").innerText = `Mẹo phát âm âm [ ${sound} ]`;
+      document.getElementById("soundGuideText").innerText = matchedGuide;
+
+      // Make a cute mini phonetic vocalizer using speech synth if supported
+      // Sound pronunciation helper in Chinese or English
+      speakLetterPhonetic(sound);
+    }
+
+    function updateLessonUIState() {
+      const isCompleted = getCompletedLessons().includes(activeLessonIndex);
+      const btn = document.getElementById("btnCompleteLesson");
+      
+      if (isCompleted) {
+        btn.className = "btn-hover px-6 py-3 rounded-xl font-bold text-sm bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 shadow-sm flex items-center gap-2";
+        btn.querySelector("span").innerText = "Đã hoàn thành! Nhấp để học lại";
+        btn.querySelector("i").setAttribute("data-lucide", "check-circle-2");
+      } else {
+        btn.className = "btn-hover px-6 py-3 rounded-xl font-bold text-sm bg-teal-600 hover:bg-teal-700 text-white shadow-sm flex items-center gap-2";
+        btn.querySelector("span").innerText = "Đánh dấu đã hoàn thành bài này";
+        btn.querySelector("i").setAttribute("data-lucide", "check-circle");
+      }
+      lucide.createIcons();
+    }
+
+    function toggleLessonCompleted() {
+      const isCompleted = getCompletedLessons().includes(activeLessonIndex);
+      markLessonCompleted(activeLessonIndex, !isCompleted);
+      
+      if (!isCompleted) {
+        playSuccessSound();
+        // Show tiny celebratory feedback or bounce
+      } else {
+        playTryAgainSound();
+      }
+      updateLessonUIState();
+    }
+
+    // ------------------------------------------------------------------------
+    // 5. SPEECH SYNTHESIS ENGINE (LISTEN ALOUD)
+    // ------------------------------------------------------------------------
+    function speakLetterPhonetic(letter) {
+      if (!synth) return;
+      synth.cancel(); // Stop any pending speech
+
+      const utterance = new SpeechSynthesisUtterance(letter);
+      utterance.lang = "zh-CN";
+      utterance.rate = 0.8; // slightly slower for clarity
+
+      // Find best Chinese voice
+      const voices = synth.getVoices();
+      const zhVoice = voices.find(v => v.lang.startsWith("zh") || v.lang === "zh-CN");
+      if (zhVoice) {
+        utterance.voice = zhVoice;
+      }
+      synth.speak(utterance);
+    }
+
+    function readAloud(text, lineIndex) {
+      if (!synth) {
+        alert("Rất tiếc, trình duyệt của bạn không hỗ trợ tính năng Phát âm mẫu (Web Speech API). Hãy dùng Chrome!");
+        return;
+      }
+
+      // Feedback animation on listen button
+      const btn = document.getElementById(`btnListen-${lineIndex}`);
+      const originalHtml = btn.innerHTML;
+      btn.innerHTML = `<i data-lucide="volume-x" class="w-4 h-4 animate-bounce"></i> <span>Đang đọc...</span>`;
+      lucide.createIcons();
+
+      synth.cancel(); // Abort previous read alouds
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "zh-CN";
+      utterance.rate = 0.75; // Slower pace for beginners to hear each tone
+
+      const voices = synth.getVoices();
+      const zhVoice = voices.find(v => v.lang.startsWith("zh") || v.lang === "zh-CN");
+      if (zhVoice) {
+        utterance.voice = zhVoice;
+      }
+
+      utterance.onend = () => {
+        btn.innerHTML = originalHtml;
+        lucide.createIcons();
+      };
+
+      utterance.onerror = () => {
+        btn.innerHTML = originalHtml;
+        lucide.createIcons();
+      };
+
+      synth.speak(utterance);
+    }
+
+    // ------------------------------------------------------------------------
+    // 6. INTERACTIVE VOICE CHALLENGE (SPEECH RECOGNITION & PARSING)
+    // ------------------------------------------------------------------------
+    function startVoiceChallenge(targetHanzi, lineIndex) {
+      if (!recognition) {
+        alert("Rất tiếc! Trình duyệt này không hỗ trợ micro SpeechRecognition. Vui lòng mở ứng dụng bằng Google Chrome trên điện thoại hoặc máy tính.");
+        return;
+      }
+
+      // Check if another line is already listening or if we're stopping the current one
+      if (currentRecordingLineIndex !== null) {
+        recognition.stop();
+        if (currentRecordingLineIndex === lineIndex) {
+          // If clicked the same button, we just stop listening and exit
+          return;
+        }
+      }
+
+      currentRecordingLineIndex = lineIndex;
+      
+      // Update UI button to reflect recording state
+      const btn = document.getElementById(`btnChallenge-${lineIndex}`);
+      const originalHtml = btn.innerHTML;
+      btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin text-rose-600"></i> <span>Đang thu âm...</span>`;
+      btn.className = "btn-hover bg-rose-100 hover:bg-rose-200 text-rose-800 border border-rose-300 px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all mic-listening";
+      lucide.createIcons();
+
+      // Show listening status banner
+      showChallengeStatus("listening", targetHanzi, lineIndex);
+
+      recognition.onstart = () => {
+        console.log("Speech recognition started");
+      };
+
+      recognition.onresult = (event) => {
+        const spokenText = event.results[0][0].transcript;
+        processChallengeResult(targetHanzi, spokenText, lineIndex);
+      };
+
+      recognition.onerror = (event) => {
+        console.error("Speech recognition error", event.error);
+        if (event.error === "not-allowed") {
+          showChallengeStatus("error", "Vui lòng cho phép quyền truy cập Micro để luyện tập nói!", lineIndex);
+        } else if (event.error === "no-speech") {
+          showChallengeStatus("error", "Không phát hiện giọng nói. Hãy nói to, rõ ràng và gần micro hơn!", lineIndex);
+        } else {
+          showChallengeStatus("error", `Lỗi thu âm: ${event.error}. Vui lòng thử lại!`, lineIndex);
+        }
+        playTryAgainSound();
+      };
+
+      recognition.onend = () => {
+        // Reset the active challenge button
+        btn.innerHTML = `
+          <i data-lucide="mic" class="w-4 h-4"></i>
+          <span>Luyện nói</span>
+        `;
+        btn.className = "btn-hover bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-100 hover:border-rose-200 px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all";
+        lucide.createIcons();
+        currentRecordingLineIndex = null;
+      };
+
+      recognition.start();
+    }
+
+    function cleanTextForMatching(text) {
+      if (!text) return "";
+      // Remove Chinese & standard punctuation marks, spaces, symbols
+      return text.replace(/[\s\d，。！？、；：""''(),.!?]/g, "").trim().toLowerCase();
+    }
+
+    function processChallengeResult(targetHanzi, spokenText, lineIndex) {
+      const cleanTarget = cleanTextForMatching(targetHanzi);
+      const cleanSpoken = cleanTextForMatching(spokenText);
+
+      console.log(`Matching process: target: "${cleanTarget}", spoken: "${cleanSpoken}"`);
+
+      // Let's compute accuracy ratio
+      let matchingCount = 0;
+      let breakdown = []; // character by character breakdown details
+
+      const targetChars = Array.from(cleanTarget);
+      const spokenChars = Array.from(cleanSpoken);
+
+      targetChars.forEach(char => {
+        const foundIndex = spokenChars.indexOf(char);
+        if (foundIndex !== -1) {
+          matchingCount++;
+          spokenChars.splice(foundIndex, 1); // remove to prevent double matching
+          breakdown.push({ char: char, match: true });
+        } else {
+          breakdown.push({ char: char, match: false });
+        }
+      });
+
+      const totalChars = targetChars.length;
+      const score = totalChars > 0 ? Math.round((matchingCount / totalChars) * 100) : 0;
+
+      // Determine result status
+      let status = "retry";
+      let feedback = "";
+      
+      if (score === 100) {
+        status = "perfect";
+        feedback = "Tuyệt vời! Khớp 100%. Bạn phát âm cực kỳ chuẩn xác!";
+        playSuccessSound();
+      } else if (score >= 60) {
+        status = "good";
+        feedback = `Khá tốt! Khớp ${score}%. Bạn phát âm cơ bản chính xác một số âm!`;
+        playSuccessSound(); // still play a soft rising success melody for encouragement
+      } else {
+        status = "retry";
+        feedback = `Cố gắng lên! Khớp ${score}%. Hãy rèn luyện thêm khẩu hình miệng và thử lại.`;
+        playTryAgainSound();
+      }
+
+      showChallengeStatus("result", {
+        score: score,
+        spokenText: spokenText,
+        targetHanzi: targetHanzi,
+        feedback: feedback,
+        status: status,
+        breakdown: breakdown
+      }, lineIndex);
+    }
+
+    function showChallengeStatus(mode, data, lineIndex) {
+      const box = document.getElementById("challengeStatusBox");
+      box.classList.remove("hidden");
+
+      if (mode === "listening") {
+        box.className = "border border-rose-200 bg-rose-50/40 rounded-2xl p-5 space-y-3";
+        box.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="bg-rose-500 text-white p-2.5 rounded-full animate-bounce mic-listening">
+              <i data-lucide="mic" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <p class="text-sm font-bold text-rose-900 font-heading">Đang lắng nghe từ Micro...</p>
+              <p class="text-xs text-slate-500">Hãy đọc to câu này: <strong class="text-slate-800 font-sans font-semibold">${data}</strong></p>
+            </div>
+          </div>
+          <!-- Wave Animation effect -->
+          <div class="flex justify-center items-center space-x-1 py-1 h-6">
+            <div class="w-1 bg-rose-400 h-2 rounded animate-pulse" style="animation-delay: 0.1s"></div>
+            <div class="w-1 bg-rose-500 h-4 rounded animate-pulse" style="animation-delay: 0.2s"></div>
+            <div class="w-1 bg-rose-600 h-6 rounded animate-pulse" style="animation-delay: 0.3s"></div>
+            <div class="w-1 bg-rose-500 h-4 rounded animate-pulse" style="animation-delay: 0.4s"></div>
+            <div class="w-1 bg-rose-400 h-2 rounded animate-pulse" style="animation-delay: 0.5s"></div>
+          </div>
+        `;
+      } else if (mode === "error") {
+        box.className = "border border-amber-200 bg-amber-50 rounded-2xl p-5";
+        box.innerHTML = `
+          <div class="flex items-start gap-3">
+            <div class="bg-amber-100 text-amber-700 p-2 rounded-xl shrink-0 mt-0.5">
+              <i data-lucide="alert-circle" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h5 class="text-sm font-bold text-amber-900 font-heading">Thông báo</h5>
+              <p class="text-xs text-amber-800/90 leading-relaxed mt-1">${data}</p>
+              <button onclick="hideChallengeStatus()" class="text-[10px] font-bold text-amber-700 underline mt-2 block hover:text-amber-900">Đóng thông báo</button>
+            </div>
+          </div>
+        `;
+      } else if (mode === "result") {
+        let borderClass = "border-slate-200 bg-white shadow-sm";
+        let titleColor = "text-slate-900";
+        let scoreBg = "bg-slate-100 text-slate-800";
+        
+        if (data.status === "perfect") {
+          borderClass = "border-emerald-200 bg-emerald-50/30";
+          titleColor = "text-emerald-900 font-bold";
+          scoreBg = "bg-emerald-500 text-white";
+        } else if (data.status === "good") {
+          borderClass = "border-teal-200 bg-teal-50/20";
+          titleColor = "text-teal-900 font-bold";
+          scoreBg = "bg-amber-500 text-white";
+        } else {
+          borderClass = "border-red-100 bg-rose-50/10";
+          titleColor = "text-red-900";
+          scoreBg = "bg-red-500 text-white";
+        }
+
+        let charactersFeedbackHtml = "";
+        data.breakdown.forEach(item => {
+          charactersFeedbackHtml += `
+            <div class="flex flex-col items-center p-2 rounded-xl border ${
+              item.match 
+                ? "bg-emerald-50 border-emerald-200 text-emerald-800" 
+                : "bg-red-50 border-red-100 text-red-500"
+            }">
+              <span class="text-xl font-chinese font-bold">${item.char}</span>
+              <span class="text-[9px] font-extrabold uppercase mt-0.5">${item.match ? "Đúng" : "Sai"}</span>
+            </div>
+          `;
+        });
+
+        box.className = `${borderClass} rounded-2xl p-6 space-y-4`;
+        box.innerHTML = `
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+            <div class="flex items-center space-x-3">
+              <div class="h-12 w-12 rounded-full ${scoreBg} flex items-center justify-center font-heading font-black text-lg shadow-sm">
+                ${data.score}
+              </div>
+              <div>
+                <h5 class="text-sm font-black font-heading ${titleColor}">Kết quả thử thách luyện nói</h5>
+                <p class="text-xs text-slate-500">Đặt điểm so khớp chữ Hán chuẩn</p>
+              </div>
+            </div>
+            <button onclick="hideChallengeStatus()" class="text-xs font-bold text-slate-400 hover:text-slate-600 flex items-center gap-1 self-start sm:self-center">
+              <i data-lucide="x" class="w-4 h-4"></i> Đóng lại
+            </button>
+          </div>
+
+          <div class="space-y-3">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <span class="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">Mẫu chuẩn</span>
+                <p class="text-base font-chinese font-bold text-teal-900 mt-1">${data.targetHanzi}</p>
+              </div>
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <span class="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">Bạn đã nói</span>
+                <p class="text-base font-chinese font-bold text-rose-800 mt-1">${data.spokenText || "(Trống - Không thu được âm)"}</p>
+              </div>
+            </div>
+
+            <div class="space-y-1.5">
+              <span class="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider block">Phân tích chi tiết từng từ</span>
+              <div class="flex flex-wrap gap-2">
+                ${charactersFeedbackHtml}
+              </div>
+            </div>
+
+            <p class="text-sm text-slate-700 leading-relaxed font-medium bg-white/50 p-3 rounded-xl border border-slate-100 shadow-sm flex items-center gap-2">
+              <i data-lucide="smile" class="w-5 h-5 text-amber-500"></i>
+              ${data.feedback}
+            </p>
+          </div>
+        `;
+      }
+      lucide.createIcons();
+    }
+
+    function hideChallengeStatus() {
+      const box = document.getElementById("challengeStatusBox");
+      box.classList.add("hidden");
+    }
+
+    // ------------------------------------------------------------------------
+    // 7. GEMINI AI API CONTROLLER & FALLBACK ENGINE
+    // ------------------------------------------------------------------------
+    async function generateAdvancedLesson() {
+      const apiKey = getActiveApiKey();
+      
+      if (!apiKey || apiKey === GEMINI_API_KEY_DEFAULT) {
+        alert("Để kích hoạt tính năng Soạn giáo án nâng cao bằng AI, bạn cần nhập Gemini API Key của riêng bạn bằng cách nhấp vào biểu tượng bánh răng cài đặt ở góc trên cùng bên phải!");
+        toggleSettingsModal();
+        return;
+      }
+
+      // Show loader screen
+      showAiLoadingScreen(true);
+
+      const lesson = LESSONS_DATA[activeLessonIndex];
+      const focusSounds = lesson.focusSounds;
+
+      const systemPrompt = `You are a highly experienced Vietnamese lecturer of Chinese. Your task is to generate custom pinyin practice content based on the user's selected lesson.
+Respond ONLY with a valid JSON object. Do not wrap the JSON in markdown code blocks. The JSON structure must be:
+{
+  "lessonTitle": "Tên bài học",
+  "focusSounds": "Các âm trọng tâm cần luyện (Thanh mẫu/Vận mẫu)",
+  "pronunciationGuide": "Mẹo phát âm & lưu ý khẩu hình chi tiết bằng tiếng Việt cho các âm này",
+  "practiceMaterial": {
+    "type": "đồng dao" | "thơ 4 chữ" | "bài hát thiếu nhi",
+    "title": "Tên bài thơ/bài hát",
+    "lines": [
+      {
+        "hanzi": "Chữ Hán dòng 1",
+        "pinyin": "Pinyin dòng 1 (kèm dấu thanh điệu chuẩn)",
+        "translation": "Dịch nghĩa tiếng Việt dòng 1"
+      },
+      {
+        "hanzi": "Chữ Hán dòng 2",
+        "pinyin": "Pinyin dòng 2 (kèm dấu thanh điệu chuẩn)",
+        "translation": "Dịch nghĩa tiếng Việt dòng 2"
+      }
+    ]
+  },
+  "teacherNotes": "Lời khuyên ngắn gọn của giáo viên giúp người học luyện tập hiệu quả"
+}`;
+
+      const userPrompt = `Hãy tạo bài học luyện phát âm tiếng Trung nâng cao dựa trên các âm trọng tâm sau: "${focusSounds}". Hãy sáng tạo ra một bài thơ ngắn hoặc đồng dao ngắn từ 2-3 câu hoàn toàn mới bằng chữ Hán, có phiên âm pinyin đi kèm chuẩn xác cùng dịch nghĩa tiếng Việt cụ thể. Đảm bảo cấu trúc JSON đầu ra chính xác 100% như yêu cầu.`;
+
+      const requestUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+      const requestBody = {
+        contents: [
+          {
+            role: "user",
+            parts: [
+              {
+                text: userPrompt
+              }
+            ]
+          }
+        ],
+        systemInstruction: {
+          parts: [
+            {
+              text: systemPrompt
+            }
+          ]
+        },
+        generationConfig: {
+          responseMimeType: "application/json",
+          temperature: 0.7
+        }
+      };
+
+      try {
+        const response = await fetch(requestUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(requestBody)
+        });
+
+        if (!response.ok) {
+          throw new Error(`API response error with status: ${response.status}`);
+        }
+
+        const responseData = await response.json();
+        
+        if (!responseData.candidates || responseData.candidates.length === 0) {
+          throw new Error("No candidates returned from Gemini API");
+        }
+
+        const rawText = responseData.candidates[0].content.parts[0].text;
+        
+        // Strip markdown backticks safely
+        let cleanedJsonText = rawText.trim();
+        if (cleanedJsonText.startsWith("```")) {
+          cleanedJsonText = cleanedJsonText.replace(/^```json\s*/i, "").replace(/```$/, "");
+        }
+
+        const parsedData = JSON.parse(cleanedJsonText);
+        
+        // Save to custom lessons storage
+        customAiLessons[activeLessonIndex] = parsedData;
+        showingAiContent = true;
+
+        // Render newly generated content
+        renderActiveLessonData();
+        
+        // Toast celebration
+        playSuccessSound();
+
+      } catch (error) {
+        console.error("Failed to query Gemini API or parse JSON. Falling back...", error);
+        // Silent recovery: The system falls back or shows a mild notification
+        alert("Không thể kết nối với trí tuệ nhân tạo Gemini hoặc cấu hình API Key chưa chính xác. Hệ thống đã tự động kích hoạt chế độ bài học gốc để đảm bảo học tập không bị gián đoạn!");
+        
+        showingAiContent = false;
+        renderActiveLessonData();
+        playTryAgainSound();
+      } finally {
+        showAiLoadingScreen(false);
+      }
+    }
+
+    function showAiLoadingScreen(show) {
+      const overlay = document.getElementById("aiLoadingOverlay");
+      if (show) {
+        // Pick a random quote
+        const randomIndex = Math.floor(Math.random() * LOADING_QUOTES.length);
+        document.getElementById("loadingQuote").innerText = LOADING_QUOTES[randomIndex];
+        overlay.classList.remove("hidden");
+      } else {
+        overlay.classList.add("hidden");
+      }
+    }
+
+    function restoreOriginalLesson() {
+      showingAiContent = false;
+      renderActiveLessonData();
+      playSuccessSound();
+    }
+
+    // ------------------------------------------------------------------------
+    // 8. TONE PLAYGROUND (SOUND SYNTH & CONTROLLER)
+    // ------------------------------------------------------------------------
+    function triggerPlayTone(toneNumber) {
+      // Lazy init AudioContext on first user interaction
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+
+      // Play synthesized frequency contour
+      playPhoneticTone(toneNumber);
+
+      // Animate Canvas Wave
+      animateToneCanvas(toneNumber);
+    }
+
+    function playPhoneticTone(toneIndex) {
+      if (!audioCtx) return;
+      
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      
+      osc.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      
+      osc.type = 'sine';
+      
+      if (toneIndex === 1) { // High flat
+        osc.frequency.setValueAtTime(350, now);
+        osc.frequency.linearRampToValueAtTime(350, now + 1.2);
+        gainNode.gain.setValueAtTime(0.12, now);
+        gainNode.gain.linearRampToValueAtTime(0.12, now + 1.0);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+        osc.start(now);
+        osc.stop(now + 1.2);
+      } else if (toneIndex === 2) { // Rising
+        osc.frequency.setValueAtTime(260, now);
+        osc.frequency.linearRampToValueAtTime(370, now + 0.9);
+        gainNode.gain.setValueAtTime(0.12, now);
+        gainNode.gain.linearRampToValueAtTime(0.12, now + 0.7);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
+        osc.start(now);
+        osc.stop(now + 0.9);
+      } else if (toneIndex === 3) { // Dipping (Low dipping)
+        osc.frequency.setValueAtTime(280, now);
+        osc.frequency.linearRampToValueAtTime(200, now + 0.35);
+        osc.frequency.linearRampToValueAtTime(320, now + 1.1);
+        gainNode.gain.setValueAtTime(0.12, now);
+        gainNode.gain.linearRampToValueAtTime(0.12, now + 0.9);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, now + 1.1);
+        osc.start(now);
+        osc.stop(now + 1.1);
+      } else if (toneIndex === 4) { // Falling (High falling)
+        osc.frequency.setValueAtTime(380, now);
+        osc.frequency.linearRampToValueAtTime(180, now + 0.8);
+        gainNode.gain.setValueAtTime(0.12, now);
+        gainNode.gain.linearRampToValueAtTime(0.12, now + 0.6);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+        osc.start(now);
+        osc.stop(now + 0.8);
+      }
+    }
+
+    function playSuccessSound() {
+      if (!audioCtx) return;
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      
+      const now = audioCtx.currentTime;
+      const osc1 = audioCtx.createOscillator();
+      const osc2 = audioCtx.createOscillator();
+      const gain1 = audioCtx.createGain();
+      const gain2 = audioCtx.createGain();
+      
+      osc1.connect(gain1);
+      gain1.connect(audioCtx.destination);
+      osc2.connect(gain2);
+      gain2.connect(audioCtx.destination);
+      
+      osc1.type = 'sine';
+      osc2.type = 'sine';
+      
+      osc1.frequency.setValueAtTime(523.25, now); // C5
+      gain1.gain.setValueAtTime(0.08, now);
+      gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+      osc1.start(now);
+      osc1.stop(now + 0.3);
+      
+      osc2.frequency.setValueAtTime(659.25, now + 0.12); // E5
+      gain2.gain.setValueAtTime(0.08, now + 0.12);
+      gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
+      osc2.start(now + 0.12);
+      osc2.stop(now + 0.42);
+    }
+
+    function playTryAgainSound() {
+      if (!audioCtx) return;
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(200, now);
+      osc.frequency.linearRampToValueAtTime(150, now + 0.35);
+      
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+      
+      osc.start(now);
+      osc.stop(now + 0.35);
+    }
+
+    // ------------------------------------------------------------------------
+    // 9. PITCH CURVE CANVAS ANIMATOR
+    // ------------------------------------------------------------------------
+    let canvas = null;
+    let ctx = null;
+    let animationFrameId = null;
+
+    function initToneCanvas() {
+      canvas = document.getElementById("toneCanvas");
+      if (!canvas) return;
+      ctx = canvas.getContext("2d");
+      
+      // Fix canvas scaling for retina displays
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      
+      // Draw grid lines
+      drawCanvasInitialGrid();
+    }
+
+    function drawCanvasInitialGrid() {
+      const width = canvas.width / (window.devicePixelRatio || 1);
+      const height = canvas.height / (window.devicePixelRatio || 1);
+      
+      ctx.clearRect(0, 0, width, height);
+      
+      // Background gradient grid lines
+      ctx.strokeStyle = "#F1F5F9";
+      ctx.lineWidth = 1;
+      
+      // Vertical grid lines
+      for (let x = width / 5; x < width; x += width / 5) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, height);
+        ctx.stroke();
+      }
+      
+      // Horizontal grid lines
+      for (let y = height / 5; y < height; y += height / 5) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(width, y);
+        ctx.stroke();
+      }
+
+      // Draw axis legends
+      ctx.fillStyle = "#94A3B8";
+      ctx.font = "9px system-ui";
+      ctx.fillText("Tần số (Pitch)", 10, 15);
+      ctx.fillText("Thời gian (Time)", width - 85, height - 10);
+    }
+
+    function animateToneCanvas(toneNumber) {
+      if (!canvas || !ctx) return;
+      
+      const width = canvas.width / (window.devicePixelRatio || 1);
+      const height = canvas.height / (window.devicePixelRatio || 1);
+      
+      // Set label
+      const label = document.getElementById("toneActiveIndicator");
+      let toneNames = ["", "Thanh 1 (Ngang) - ā", "Thanh 2 (Sắc) - á", "Thanh 3 (Hỏi) - ǎ", "Thanh 4 (Huyền) - à"];
+      label.innerText = toneNames[toneNumber];
+
+      let startTime = null;
+      let duration = toneNumber === 1 ? 1200 : (toneNumber === 3 ? 1100 : (toneNumber === 2 ? 900 : 800));
+
+      // Cancel previous animation frame if any
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+
+      // Define parametric paths for the pitch of 4 tones on canvas:
+      // Tone 1: straight high line
+      // Tone 2: sweeping rising line
+      // Tone 3: dipping u-shape line
+      // Tone 4: sharp falling line
+      
+      function drawFrame(timestamp) {
+        if (!startTime) startTime = timestamp;
+        let elapsed = timestamp - startTime;
+        let progress = Math.min(elapsed / duration, 1.0);
+
+        // Clear and redraw grid
+        drawCanvasInitialGrid();
+
+        // Draw complete reference curve in light grey
+        ctx.beginPath();
+        ctx.strokeStyle = "#E2E8F0";
+        ctx.lineWidth = 3;
+        ctx.setLineDash([4, 4]);
+        
+        for (let p = 0; p <= 1; p += 0.01) {
+          let pt = getTonePoint(toneNumber, p, width, height);
+          if (p === 0) ctx.moveTo(pt.x, pt.y);
+          else ctx.lineTo(pt.x, pt.y);
+        }
+        ctx.stroke();
+        ctx.setLineDash([]); // Reset line dash
+
+        // Draw active animated path in gorgeous emerald teal gradient
+        ctx.beginPath();
+        ctx.strokeStyle = "#0d9488";
+        ctx.lineWidth = 5;
+        ctx.lineCap = "round";
+        
+        for (let p = 0; p <= progress; p += 0.01) {
+          let pt = getTonePoint(toneNumber, p, width, height);
+          if (p === 0) ctx.moveTo(pt.x, pt.y);
+          else ctx.lineTo(pt.x, pt.y);
+        }
+        ctx.stroke();
+
+        // Draw the riding tracking ball
+        let ballPt = getTonePoint(toneNumber, progress, width, height);
+        ctx.beginPath();
+        ctx.arc(ballPt.x, ballPt.y, 8, 0, 2 * Math.PI);
+        ctx.fillStyle = "#FB7185"; // rose ball
+        ctx.shadowColor = 'rgba(251, 113, 133, 0.4)';
+        ctx.shadowBlur = 10;
+        ctx.fill();
+        ctx.shadowBlur = 0; // Reset shadow
+
+        // Draw center inner white point
+        ctx.beginPath();
+        ctx.arc(ballPt.x, ballPt.y, 3, 0, 2 * Math.PI);
+        ctx.fillStyle = "#ffffff";
+        ctx.fill();
+
+        if (progress < 1.0) {
+          animationFrameId = requestAnimationFrame(drawFrame);
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(drawFrame);
+    }
+
+    function getTonePoint(toneNumber, progress, width, height) {
+      // Scale padding
+      const paddingX = 40;
+      const paddingY = 40;
+      const usableWidth = width - paddingX * 2;
+      const usableHeight = height - paddingY * 2;
+
+      let x = paddingX + progress * usableWidth;
+      let y = 0;
+
+      if (toneNumber === 1) {
+        // High flat (constant low y coordinate = high frequency)
+        y = paddingY + usableHeight * 0.15;
+      } else if (toneNumber === 2) {
+        // Rising (goes from medium/high y coordinate to low y coordinate)
+        y = paddingY + usableHeight * 0.65 - progress * (usableHeight * 0.5);
+      } else if (toneNumber === 3) {
+        // Dipping (U-shape dip)
+        // Peak-dip-peak parametric path
+        if (progress < 0.4) {
+          // Downwards
+          let normalizedP = progress / 0.4;
+          y = paddingY + usableHeight * 0.5 + normalizedP * (usableHeight * 0.4);
+        } else {
+          // Upwards
+          let normalizedP = (progress - 0.4) / 0.6;
+          y = paddingY + usableHeight * 0.9 - normalizedP * (usableHeight * 0.6);
+        }
+      } else if (toneNumber === 4) {
+        // Falling (sharp slope down)
+        y = paddingY + usableHeight * 0.1 + progress * (usableHeight * 0.85);
+      }
+
+      return { x: x, y: y };
+    }
+
+    // Resize listener for Tone Canvas
+    window.addEventListener("resize", () => {
+      initToneCanvas();
+    });
+
+    // ------------------------------------------------------------------------
+    // 10. INTERACTIVE Drawer AND MODAL toggles
+    // ------------------------------------------------------------------------
+    function toggleSettingsModal() {
+      const modal = document.getElementById("settingsModal");
+      modal.classList.toggle("hidden");
+    }
+
+    function toggleMobileSidebar() {
+      const drawer = document.getElementById("sidebarContainer");
+      const overlay = document.getElementById("mobileSidebarOverlay");
+      
+      if (drawer.classList.contains("-translate-x-full")) {
+        // Open
+        drawer.classList.remove("-translate-x-full");
+        overlay.classList.remove("hidden");
+        // Trigger reflow for slide transition
+        setTimeout(() => overlay.classList.add("opacity-100"), 10);
+      } else {
+        // Close
+        drawer.classList.add("-translate-x-full");
+        overlay.classList.remove("opacity-100");
+        setTimeout(() => overlay.classList.add("hidden"), 300);
+      }
+    }
+  </script>
+</body>
+</html>
